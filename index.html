@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+    .content {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 10px;
+    }
+    table { border-collapse: collapse; font-family: Calibri, sans-serif; }
+    colgroup, tbody { border: solid medium; }
+    td { border: solid thin; height: 3em; width: 3em; text-align: center; padding: 0; }
+    input { border: none; text-align: center; height: 3em; width: 3em }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+    </style>
+  </head>
+    <body>
+    <div class="content">
+
+      <script src="wasm_exec.js"></script>
+      <script>
+        if (!WebAssembly.instantiateStreaming) {
+          // polyfill
+          WebAssembly.instantiateStreaming = async (resp, importObject) => {
+            const source = await (await resp).arrayBuffer();
+            return await WebAssembly.instantiate(source, importObject);
+          };
+        }
+
+        const go = new Go();
+
+        let mod, inst;
+
+        WebAssembly.instantiateStreaming(fetch("lib.wasm"), go.importObject).then(
+          async result => {
+            mod = result.module;
+            inst = result.instance;
+            await go.run(inst);
+          }
+        );
+
+        async function run() {
+          await go.run(inst);
+          inst = await WebAssembly.instantiate(mod, go.importObject); // reset instance
+        }
+      </script>
+      <script>
+        function handleChange(input) {
+          if (input.value < 0 || input.value > 9) { 
+            window.alert("Enter a Value between 1-9");
+            input.value = ""
+          }
+        }
+      </script>
+
+      <h2>Sudoku Backtrack Solver</h2>
+      <table>
+          <colgroup><col><col><col>
+          <colgroup><col><col><col>
+          <colgroup><col><col><col>
+          <tbody>
+              <tr><td><input type="number" id="0", onkeyup="handleChange(this);">
+              <td><input type="number"  id="1", onkeyup="handleChange(this);">
+              <td><input type="number" id="2", onkeyup="handleChange(this);">
+              <td><input type="number" id="3", onkeyup="handleChange(this);">
+              <td><input type="number" id="4", onkeyup="handleChange(this);">
+              <td><input type="number" id="5", onkeyup="handleChange(this);">
+              <td><input type="number" id="6", onkeyup="handleChange(this);">
+              <td><input type="number" id="7", onkeyup="handleChange(this);">
+              <td><input type="number" id="8", onkeyup="handleChange(this);">
+              <tr><td><input type="number" id="9", onkeyup="handleChange(this);">
+              <td><input type="number"  id="10", onkeyup="handleChange(this);">
+              <td><input type="number" id="11", onkeyup="handleChange(this);">
+              <td><input type="number" id="12", onkeyup="handleChange(this);">
+              <td><input type="number" id="13", onkeyup="handleChange(this);">
+              <td><input type="number" id="14", onkeyup="handleChange(this);">
+              <td><input type="number" id="15", onkeyup="handleChange(this);">
+              <td><input type="number" id="16", onkeyup="handleChange(this);">
+              <td><input type="number" id="17", onkeyup="handleChange(this);">
+              <tr><td><input type="number" id="18", onkeyup="handleChange(this);">
+              <td><input type="number"  id="19", onkeyup="handleChange(this);">
+              <td><input type="number" id="20", onkeyup="handleChange(this);">
+              <td><input type="number" id="21", onkeyup="handleChange(this);">
+              <td><input type="number" id="22", onkeyup="handleChange(this);">
+              <td><input type="number" id="23", onkeyup="handleChange(this);">
+              <td><input type="number" id="24", onkeyup="handleChange(this);">
+              <td><input type="number" id="25", onkeyup="handleChange(this);">
+              <td><input type="number" id="26", onkeyup="handleChange(this);">            
+          </tbody>
+          <tbody>
+              <tr><td><input type="number" id="27", onkeyup="handleChange(this);">
+              <td><input type="number"  id="28", onkeyup="handleChange(this);">
+              <td><input type="number" id="29", onkeyup="handleChange(this);">
+              <td><input type="number" id="30", onkeyup="handleChange(this);">
+              <td><input type="number" id="31", onkeyup="handleChange(this);">
+              <td><input type="number" id="32", onkeyup="handleChange(this);">
+              <td><input type="number" id="33", onkeyup="handleChange(this);">
+              <td><input type="number" id="34", onkeyup="handleChange(this);">
+              <td><input type="number" id="35", onkeyup="handleChange(this);">
+              <tr><td><input type="number" id="36", onkeyup="handleChange(this);">
+              <td><input type="number"  id="37", onkeyup="handleChange(this);">
+              <td><input type="number" id="38", onkeyup="handleChange(this);">
+              <td><input type="number" id="39", onkeyup="handleChange(this);">
+              <td><input type="number" id="40", onkeyup="handleChange(this);">
+              <td><input type="number" id="41", onkeyup="handleChange(this);">
+              <td><input type="number" id="42", onkeyup="handleChange(this);">
+              <td><input type="number" id="43", onkeyup="handleChange(this);">
+              <td><input type="number" id="44", onkeyup="handleChange(this);">
+              <tr><td><input type="number" id="45", onkeyup="handleChange(this);">
+              <td><input type="number"  id="46", onkeyup="handleChange(this);">
+              <td><input type="number" id="47", onkeyup="handleChange(this);">
+              <td><input type="number" id="48", onkeyup="handleChange(this);">
+              <td><input type="number" id="49", onkeyup="handleChange(this);">
+              <td><input type="number" id="50", onkeyup="handleChange(this);">
+              <td><input type="number" id="51", onkeyup="handleChange(this);">
+              <td><input type="number" id="52", onkeyup="handleChange(this);">
+              <td><input type="number" id="53", onkeyup="handleChange(this);">            
+          </tbody>
+          <tbody>
+              <tr><td><input type="number" id="54", onkeyup="handleChange(this);">
+              <td><input type="number"  id="55", onkeyup="handleChange(this);">
+              <td><input type="number" id="56", onkeyup="handleChange(this);">
+              <td><input type="number" id="57", onkeyup="handleChange(this);">
+              <td><input type="number" id="58", onkeyup="handleChange(this);">
+              <td><input type="number" id="59", onkeyup="handleChange(this);">
+              <td><input type="number" id="60", onkeyup="handleChange(this);">
+              <td><input type="number" id="61", onkeyup="handleChange(this);">
+              <td><input type="number" id="62", onkeyup="handleChange(this);">
+              <tr><td><input type="number" id="63", onkeyup="handleChange(this);">
+              <td><input type="number"  id="64", onkeyup="handleChange(this);">
+              <td><input type="number" id="65", onkeyup="handleChange(this);">
+              <td><input type="number" id="66", onkeyup="handleChange(this);">
+              <td><input type="number" id="67", onkeyup="handleChange(this);">
+              <td><input type="number" id="68", onkeyup="handleChange(this);">
+              <td><input type="number" id="69", onkeyup="handleChange(this);">
+              <td><input type="number" id="70", onkeyup="handleChange(this);">
+              <td><input type="number" id="71", onkeyup="handleChange(this);">
+              <tr><td><input type="number" id="72", onkeyup="handleChange(this);">
+              <td><input type="number"  id="73", onkeyup="handleChange(this);">
+              <td><input type="number" id="74", onkeyup="handleChange(this);">
+              <td><input type="number" id="75", onkeyup="handleChange(this);">
+              <td><input type="number" id="76", onkeyup="handleChange(this);">
+              <td><input type="number" id="77", onkeyup="handleChange(this);">
+              <td><input type="number" id="78", onkeyup="handleChange(this);">
+              <td><input type="number" id="79", onkeyup="handleChange(this);">
+              <td><input type="number" id="80", onkeyup="handleChange(this);">            
+          </tbody>
+      </table>
+          
+          
+      <p>Enter Numbers in the grid above</p>
+      <button onClick="checkSudoku();">Check</button>
+      <button onClick="clearBoard();">Clear</button>
+    </div>
+    </body>
+</html>
