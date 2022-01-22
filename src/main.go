@@ -154,23 +154,3 @@ func main() {
 	<-c
 
 }
-
-func getSudoku(i []js.Value) {
-	//offset := 0
-	/*for row := 0; row < 9; row++ {
-		for col := 0; col < 9; col++ {
-			cellnum := strconv.FormatInt(int64(row+col+offset), 10)
-			fmt.Println(cellnum)
-			testtext := r.PostFormValue(cellnum)
-			fmt.Println(testtext)
-			intVar, err := strconv.Atoi(testtext)
-			if err != nil {
-				intVar = 0
-			}
-			grid[row][col] = intVar
-
-		}
-		offset += 8
-
-	}*/
-}
